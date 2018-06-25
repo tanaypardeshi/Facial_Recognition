@@ -125,17 +125,6 @@ face_recognizer = cv2.face.LBPHFaceRecognizer_create()
 #train our face recognizer of our training faces
 face_recognizer.train(faces, np.array(labels))
 
-
-# **Did you notice** that instead of passing `labels` vector directly to face recognizer I am first converting it to **numpy** array? This is because OpenCV expects labels vector to be a `numpy` array. 
-# 
-# Still not satisfied? Want to see some action? Next step is the real action, I promise! 
-
-# ### Prediction
-
-# Now comes my favorite part, the prediction part. This is where we actually get to see if our algorithm is actually recognizing our trained subjects's faces or not. We will take two test images of our celeberities, detect faces from each of them and then pass those faces to our trained face recognizer to see if it recognizes them. 
-# 
-# Below are some utility functions that we will use for drawing bounding box (rectangle) around face and putting celeberity name near the face bounding box. 
-
 # In[8]:
 
 #function to draw rectangle on image 
@@ -155,8 +144,6 @@ def draw_text(img, text, x, y):
 # 
 # Second function `draw_text` uses OpenCV's built in function `cv2.putText(img, text, startPoint, font, fontSize, rgbColor, lineWidth)` to draw text on image. 
 # 
-# Now that we have the drawing functions, we just need to call the face recognizer's `predict(face)` method to test our face recognizer on test images. Following function does the prediction for us.
-
 
 # In[9]:
 
@@ -183,7 +170,7 @@ def predict(test_img):
     
     return img
 
-# Now that we have the prediction function well defined, next step is to actually call this function on our test images and display those test images to see if our face recognizer correctly recognized them. So let's do it. This is what we have been waiting for. 
+# Now that we have the prediction function well defined, next step is to actually call this function on our test images and display those test images to see if our face recognizer correctly recognized them.  
 
 
 # In[10]:

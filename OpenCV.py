@@ -4,8 +4,8 @@ import cv2
 import os
 #numpy to convert python lists to numpy arrays as it is needed by OpenCV face recognizers
 import numpy as np
-#there is no label 0 in our training data so subject name for index/label 0 is empty
-subjects = ["","Sachin Tendulkar", "Ramiz Raja"]
+#there is no label 0 in the training data so subject name for index/label 0 is empty
+subjects = ["","Sachin Tendulkar", "Shahrukh Khan"]
 subjects
 def detect_face(img):
     #convert the test image to gray image as opencv face detector expects gray images
@@ -15,15 +15,13 @@ def detect_face(img):
     #there is also a more accurate but slow Haar classifier
     face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_alt.xml')
 
-    #let's detect multiscale (some images may be closer to camera than others) images
+    #Detect multiscale (some images may be closer to camera than others) images
     #result is a list of faces
     faces = face_cascade.detectMultiScale(gray, scaleFactor=1.2, minNeighbors=5);
     
     #if no faces are detected then return original img
     if (len(faces) == 0):
         return None, None
-    
-    #under the assumption that there will be only one face,
     #extract the face area
     (x, y, w, h) = faces[0]
     
@@ -85,7 +83,6 @@ def prepare_training_data(data_folder_path):
             face, rect = detect_face(image)
             
             #------STEP-4--------
-            #for the purpose of this tutorial
             #we will ignore faces that are not detected
             if face is not None:
                 #add face to list of faces
@@ -117,15 +114,9 @@ face_recognizer = cv2.face.LBPHFaceRecognizer_create()
 #or use FisherFaceRecognizer by replacing above line with 
 #face_recognizer = cv2.face.FisherFaceRecognizer_create()
 
-
-# Now that we have initialized our face recognizer and we also have prepared our training data, it's time to train the face recognizer. We will do that by calling the `train(faces-vector, labels-vector)` method of face recognizer. 
-
-# In[7]:
-
 #train our face recognizer of our training faces
 face_recognizer.train(faces, np.array(labels))
 
-# In[8]:
 
 #function to draw rectangle on image 
 #according to given (x, y) coordinates and 
@@ -169,11 +160,6 @@ def predict(test_img):
     draw_text(img, label_text, rect[0], rect[1]-5)
     
     return img
-
-# Now that we have the prediction function well defined, next step is to actually call this function on our test images and display those test images to see if our face recognizer correctly recognized them.  
-
-
-# In[10]:
 
 print("Predicting images...")
 
